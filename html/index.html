@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="fonts/iconfont.css">
+	<link rel="stylesheet" href="css/style.css">
+	<style>
+		.show{
+            transform: translateX(-100px);
+        }
+	</style>
+</head>
+<body>
+	<div class="box">
+		<header>
+			<a href=""><i class="icon iconfont">&#xe629;</i></a>
+			<a href="">Shop</a>
+			<a href=""><i class="icon iconfont">&#xe60a;</i></a>
+		</header>
+		<section>
+			<div class="wrap container">
+				<dl class="swiper-wrapper">
+					<dt>
+						<img src="images/1.jpg" alt="">
+					</dt>
+					<dd class="swiper-slide">
+						<h5>
+							<p>Elegant Apron-Coco Collection</p>
+							<span class="inc"><i class="icon iconfont">&#xe62f;</i></span>
+						</h5>
+						<h5>
+							<p class="kinds">JACKET/BLACK </p><span class="num">1</span>
+						</h5>
+						<h5>
+							<p class="price">$ <span>647.00</span>  </p>
+							<span class="dis"><i class="icon iconfont">&#xe64f;</i></span>
+						</h5>
+					</dd>
+				</dl>
+				<div class="dele">X</div>
+			</div>
+			<div class="wrap">
+				<dl>
+					<dt>
+						<img src="images/2.jpg" alt="">
+					</dt>
+					<dd>
+						<h5>
+							<p>Elegant Apron-Coco Collection</p>
+							<span class="inc"><i class="icon iconfont">&#xe62f;</i></span>
+						</h5>
+						<h5>
+							<p class="kinds">T-SHIRT/BLUE </p><span class="num">1</span>
+						</h5>
+						<h5>
+							<p class="price">$ <span>300.00</span>  </p>
+							<span class="dis"><i class="icon iconfont">&#xe64f;</i></span>
+						</h5>
+					</dd>
+				</dl>
+				<div class="dele">X</div>
+			</div>
+			<div class="wrap">
+				<dl>
+					<dt>
+						<img src="images/1.jpg" alt="">
+					</dt>
+					<dd>
+						<h5>
+							<p>Elegant Apron-Coco Collection</p>
+							<span class="inc"><i class="icon iconfont">&#xe62f;</i></span>
+						</h5>
+						<h5>
+							<p class="kinds">DRESS/COLOR </p>
+							<span class="num">1</span>
+						</h5>
+						<h5>
+							<p class="price">$ <span>455.00</span>  </p>
+							<span class="dis"><i class="icon iconfont">&#xe64f;</i></span>
+						</h5>
+					</dd>
+				</dl>
+				<div class="dele">X</div>
+			</div>
+			<div class="sum">TOTAL <span class="sum_num">3ITEMS</span> <span class="sum_price">$0</span></div>
+		</section>
+		<footer>
+			<button>Place Order</button>
+		</footer>
+	</div>
+	<script src="js/font.js"></script>
+	<script src="js/jquery.js"></script>
+	<script>
+		var num = $(".sum_num").text();
+		$(".inc").on("click",function(){
+			var txt = $(this).parent().next().find(".num").text();
+			txt++;
+			$(this).parent().next().find(".num").text(txt);
+			//console.log(txt)
+			if(txt>8){
+				$(this).parent().next().find(".num").text(8);
+				alert("数量达到上限");
+			}
+		})
+		$(".dis").on("click",function(){
+			var txt = $(this).parent().prev().find(".num").text();
+			txt--;
+			$(this).parent().prev().find(".num").text(txt);
+			//console.log(txt)
+			if(txt<1){
+				$(this).parent().prev().find(".num").text(1);
+				if(confirm("您确定要删除么？")){
+					$(this).parents(".wrap").remove();
+					num--;
+					$(".sum_num").html(num);
+				}else{
+					return false;
+				}
+			}
+		})
+		$("button").on("click",function(){
+			var sum=0;
+			var p=0;
+			//计算
+			$(".num").each(function(i,val){
+				sum+=Number($(val).text());
+				var prices=Number($(this).parent().next().find(".price span").text());
+				p+=Number(prices*sum);
+			})
+			$(".sum_price").text("$"+p);
+			$(".sum_num").text(sum+"ITEMS ");
+			//清空
+			$(".num").val("");
+		})
+		var startX,moveX,endX;
+		$(".wrap").on("touchstart",function(e){
+			startX = e.touches[0].pageX;
+			// console.log(e)
+		})
+		$(".wrap").on("touchmove",function(e){
+			moveX = e.touches[0].pageX-startX;
+
+		})
+		$(".wrap").on("touchend",function(e){
+			if(moveX<0){
+				$(this).find(".dele").animate({
+					"right":0
+				},600)
+			}
+			if(moveX>0){
+				$(this).find(".dele").animate({
+					"right":"-100px"
+				},600)
+			}
+			if(moveX == 0){
+				$(this).find(".dele").animate({
+					"right":"-100px"
+				},600)
+			}
+		})
+		$(".dele").on("click",function(){
+			$(this).parents(".wrap").remove()
+		})
+	</script>
+</body>
+</html>
