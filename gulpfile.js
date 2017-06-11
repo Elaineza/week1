@@ -56,3 +56,7 @@ gulp.task("server",["cssZip"],["htmlZip"],["imgZip"],function(){
 			open:"/html/index.html"
 		}))
 })
+
+gulp.watch('css/**/*.scss', ['cssZip']);
+gulp.watch('html/**/*.html', ['htmlZip']);
+gulp.watch('images/**/*.jpg', ['imgZip']);
